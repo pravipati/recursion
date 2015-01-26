@@ -5,4 +5,8 @@
 
 var stringifyJSON = function(obj) {
   // your code goes here
+  if (typeof(obj) === "string") {
+      return "'" + obj + "'";
+  }
+  return String(obj);
 };
