@@ -23,5 +23,26 @@ var stringifyJSON = function(obj) {
   if (typeof(obj) === "string") {
       return '"' + String(obj) + '"';
   }
+  // Check if the obj is a proper Object
+  if (String(obj) === "[object Object]") {
+      // Removes any key / value pairs that contain functions or undefined values
+      for (var v in obj) {
+	  if ((typeof(obj[v]) === "function") || (typeof(obj[v]) === "undefined")) {
+	      delete obj[v];
+	  }
+      }
+      // Check if there's anything inside the object
+      if (Object.keys(obj)) {
+	  var result = [];
+	  // Goes through each key:value pair in the obj and makes a recursive call to stringifyJSON
+	  for (var k in obj) {
+	      result.push(stringifyJSON(k) + ':' + stringifyJSON(obj[k]));
+	  }
+        return "{" + result.join(",") + "}";
+      }
+      else {
+	  return "{" + "}";
+      }
+  }
   return String(obj);
 };
