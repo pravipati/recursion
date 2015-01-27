@@ -5,6 +5,18 @@
 
 var stringifyJSON = function(obj) {
   // your code goes here
+  if (Array.isArray(obj)) {
+      if (obj.length) {
+	  var result = [];
+	  for (var i = 0; i < obj.length; i++) {
+	      result.push(stringifyJSON(obj[i]));
+	  }
+	  return "[" + String(result) + "]";
+      }
+      else {
+	  return "[" + "]";
+      }
+  }
   if (typeof(obj) === "string") {
       return '"' + String(obj) + '"';
   }
