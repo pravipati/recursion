@@ -6,23 +6,25 @@
 // But instead we're going to implement it from scratch:
 
 
-
-var getElementsByClassName = function(className, currElement
-){
+var getElementsByClassName = function(className){
   // your code here
-  var ob = typeof currElement != 'undefined' ? currElement : document.body;
   var result = [];
 
-  for (var i = 0; i < ob.childNodes.length; i++) {
-      if (ob.childNodes[i].classList !== undefined) {
-	  if (ob.childNodes[i].classList.contains(className)) {
-	      result.push(ob.childNodes[i]);
-	  }
-      }
-      if (ob.childNodes[i].childNodes.length > 0) {
-	  result = result.concat(getElementsByClassName(className, ob.childNodes[i]));
-      }
+  var checkElement = function(element) {
+    if (element.classList) {
+	if (element.classList.contains(className)) {
+	    result.push(element)
+	}
+    }
+    if (element.childNodes) {
+	for (var i = 0; i < element.childNodes.length; i++) {
+	  checkElement(element.childNodes[i]);
+	}
+    }
   }
-  return result;
+  
+  checkElement(document.body);
 
+  return result;
 };
+
